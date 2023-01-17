@@ -44,14 +44,14 @@ if [[ -z $__language ]]; then
 fi
 
 # cat prevents grep from failing
-utf8_loc=$(locale -a | grep -w "$__language" | grep -i utf | grep 8 | cat)
+utf8_loc=$(locale -a | grep -w "$__language" | grep -i utf | grep 8 | head -1 | cat)
 if [[ -n $utf8_loc ]]; then
 	__utf8=$(echo "$utf8_loc" | cut -d. -f2)
 else
 	# it is possible to have en_US language with no utf8
 	# if so, fallback on C and try our luck
 	utf8_loc1="$utf8_loc"
-	utf8_loc=$(locale -a | grep -w C | grep -i utf | grep 8 | cat)
+	utf8_loc=$(locale -a | grep -w C | grep -i utf | grep 8 | head -1 | cat)
 	if [[ -n $utf8_loc ]]; then
 		__language=C
 	else
